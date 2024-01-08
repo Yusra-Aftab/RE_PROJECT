@@ -127,4 +127,45 @@ public class Calculator {
         throw new Error();
     }
 
+    public Double calculateFactorial(Double num) {
+        // Check if the number is a non-negative integer
+        if (num < 0 || num % 1 != 0) {
+            return NaN; // Factorial is undefined for negative numbers or non-integers
+        }
+
+        // Calculate the factorial using a loop
+        double result = 1;
+        for (int i = 1; i <= num; i++) {
+            result *= i;
+        }
+
+        return result;
+    }
+
+ 
+    //New Functions
+
+    
+    public Double calculateSquareOfSum(Double num1, Double num2) {
+        double sum = num1 + num2;
+        return sum * sum;
+    }
+
+
+    public Double calculateCombination(Double n, Double r) {
+        if (n < 0 || r < 0 || n < r) {
+            return NaN; // Combination is undefined for these cases
+        }
+        
+        return calculateFactorial(n) / (calculateFactorial(r) * calculateFactorial(n - r));
+    }
+
+    public Double calculatePermutation(Double n, Double r) {
+        if (n < 0 || r < 0 || n < r) {
+            return NaN; // Permutation is undefined for these cases
+        }
+
+        return calculateFactorial(n) / calculateFactorial(n - r);
+    }
+
 }

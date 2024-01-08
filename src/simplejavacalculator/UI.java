@@ -52,7 +52,9 @@ public class UI implements ActionListener {
    
    private final JButton but[], butAdd, butMinus, butMultiply, butDivide,
       butEqual, butCancel, butSquareRoot, butSquare, butOneDividedBy,
-      butCos, butSin, butTan, butxpowerofy, butlog, butrate, butabs, butBinary, butln;
+      butCos, butSin, butTan, butxpowerofy, butlog, butrate, butabs, butBinary, butln, 
+      butFactorial, butSquareOfSum, butCombination, butPermutation;
+ 
    private final Calculator calc;
    
    private final String[] buttonValue = {"0", "1", "2", "3", "4", "5", "6",
@@ -108,7 +110,11 @@ public class UI implements ActionListener {
       butrate = new JButton("x%");      
       butabs = new JButton("abs(x)");      
       butCancel = new JButton("C");      
-      butBinary = new JButton("Bin");      
+      butBinary = new JButton("Bin"); 
+      butFactorial = new JButton("!");  //New Function
+      butSquareOfSum = new JButton("(+)^2");  //New Function
+      butCombination = new JButton("C(n, r)");  //New Function
+      butPermutation = new JButton("P(n, r)");    //New Function
       
       calc = new Calculator();
       
@@ -184,6 +190,10 @@ public class UI implements ActionListener {
       panelSub6.add(butSquareRoot);
       panelSub6.add(butOneDividedBy);
       panelSub6.add(butxpowerofy);
+      panelSub6.add(butFactorial); // New button
+      panelSub6.add(butSquareOfSum); // New button
+      panelSub6.add(butCombination); // New button
+      panelSub6.add(butPermutation); // New button
       panel.add(panelSub6);
       
       panelSub7.add(butCos);
@@ -216,7 +226,10 @@ public class UI implements ActionListener {
       butrate.addActionListener(this);
       butabs.addActionListener(this);
       butBinary.addActionListener(this);
-      
+      butFactorial.addActionListener(this);
+      butSquareOfSum.addActionListener(this);
+      butCombination.addActionListener(this);
+      butPermutation.addActionListener(this);
       butEqual.addActionListener(this);
       butCancel.addActionListener(this);
       
@@ -307,6 +320,37 @@ public class UI implements ActionListener {
 
          if (source == butBinary)
             parsetoBinary();
+
+
+         if (source == butSquareOfSum) {
+            writer(calc.calculateSquareOfSum(reader(), reader()));
+            text.replaceSelection(butSquareOfSum.getText());
+         }
+   
+         if (source == butFactorial) {
+            writer(calc.calculateFactorial(reader()));
+            text.replaceSelection(butFactorial.getText());
+         }
+   
+         if (source == butCombination || source == butPermutation) {
+            // Assuming the user inputs two values separated by a space
+            String[] values = text.getText().split("\\s+");
+            if (values.length == 2) {
+               Double n = Double.parseDouble(values[0]);
+               Double r = Double.parseDouble(values[1]);
+   
+               if (source == butCombination) {
+                  writer(calc.calculateCombination(n, r));
+                  text.replaceSelection(butCombination.getText());
+               } else if (source == butPermutation) {
+                  writer(calc.calculatePermutation(n, r));
+                  text.replaceSelection(butPermutation.getText());
+               }
+            } else {
+               text.setText("Invalid Input");
+            }
+         }
+      
       }
 
       text.selectAll();
@@ -336,4 +380,5 @@ public class UI implements ActionListener {
          text.setText(Double.toString(num));
       }
    }
+   
 }
